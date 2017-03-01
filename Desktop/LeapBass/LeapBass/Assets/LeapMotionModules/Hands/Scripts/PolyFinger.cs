@@ -34,17 +34,17 @@ namespace Leap.Unity{
     protected Vector3[] cap_vertices_;
 
     /** Creates the finger mesh. */
-    public override void InitFinger() {
+    public override void InitFinger(Chirality h, int f) {
       InitJointVertices();
       InitCapsMesh();
       InitMesh();
       GetComponent<MeshFilter>().mesh = new Mesh();
 
-      UpdateFinger();
+      UpdateFinger(h,f);
     }
 
     /** Updates the mesh.*/
-    public override void UpdateFinger() {
+    public override void UpdateFinger(Chirality h, int f) {
       UpdateMesh();
       UpdateCapMesh();
 

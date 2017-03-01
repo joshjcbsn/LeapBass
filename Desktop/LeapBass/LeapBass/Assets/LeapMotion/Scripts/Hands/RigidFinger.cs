@@ -22,8 +22,9 @@ namespace Leap.Unity{
       }
     }
   
-    public override void UpdateFinger() {
-      for (int i = 0; i < bones.Length; ++i) {
+    public override void UpdateFinger(Chirality h, int f) {
+       var sender = new SharpOSC.UDPSender("127.0.0.1", 55555);
+       for (int i = 0; i < bones.Length; ++i) {
         if (bones[i] != null) {
           // Set bone dimensions.
           CapsuleCollider capsule = bones[i].GetComponent<CapsuleCollider>();
@@ -36,15 +37,36 @@ namespace Leap.Unity{
             capsule.radius = GetBoneWidth(i) / 2f;
             capsule.height = GetBoneLength(i) + GetBoneWidth(i);
           }
-  
+           
           Rigidbody boneBody = bones[i].GetComponent<Rigidbody>();
+          Vector3 bonePos = GetBoneCenter(i);
+          Quaternion boneRot = GetBoneRotation(i);
           if (boneBody) {
-            boneBody.MovePosition(GetBoneCenter(i));
-            boneBody.MoveRotation(GetBoneRotation(i));
+            boneBody.MovePosition(bonePos);
+            boneBody.MoveRotation(boneRot);
           } else {
-            bones[i].position = GetBoneCenter(i);
-            bones[i].rotation = GetBoneRotation(i);
-          }
+            bones[i].position = bonePos;
+            bones[i].rotation = boneRot;
+           
+            }
+            string msg = "/";
+            if (h == Chirality.Right)
+                msg += "Right";
+            else
+                msg += "Left";
+            msg += f.ToString();
+            msg += "Bone" + i.ToString();
+
+            string msgPos = msg + "Pos";
+            var oscPos = new SharpOSC.OscMessage(msgPos, bonePos.x, bonePos.y, bonePos.z);
+            sender.Send(oscPos);
+                    
+            
+            string msgRot = msg + "Rot";
+            var oscRot = new SharpOSC.OscMessage(msgRot, boneRot.x, boneRot.y, boneRot.z, boneRot.w);
+            var senderRot = new SharpOSC.UDPSender("127.0.0.1", 55555);
+            sender.Send(oscRot);
+            
         }
       }
     }

@@ -27,11 +27,11 @@ namespace Leap.Unity {
     /** Initializes the hand and calls the finger initializers. */
     public override void InitHand() {
       SetPalmOrientation();
-
+      Chirality h = this.Handedness;
       for (int f = 0; f < fingers.Length; ++f) {
         if (fingers[f] != null) {
           fingers[f].fingerType = (Finger.FingerType)f;
-          fingers[f].InitFinger();
+          fingers[f].InitFinger(h, f);
         }
       }
     }
@@ -39,10 +39,11 @@ namespace Leap.Unity {
     /** Updates the hand and calls the finger update functions. */
     public override void UpdateHand() {
       SetPalmOrientation();
+      Chirality h = this.Handedness;
 
       for (int f = 0; f < fingers.Length; ++f) {
         if (fingers[f] != null) {
-          fingers[f].UpdateFinger();
+          fingers[f].UpdateFinger(h, f);
         }
       }
     }

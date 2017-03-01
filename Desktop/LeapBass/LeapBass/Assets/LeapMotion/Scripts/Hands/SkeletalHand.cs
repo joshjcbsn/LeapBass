@@ -45,10 +45,10 @@ namespace Leap.Unity{
   
     protected void SetPositions() {
       Debug.Log("SkeletalHand.SetPositions()");
-  
+      Chirality h = this.Handedness;
       for (int f = 0; f < fingers.Length; ++f) {
         if (fingers[f] != null) {
-          fingers[f].UpdateFinger();
+          fingers[f].UpdateFinger(h, f);
         }
       }
   

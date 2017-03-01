@@ -27,10 +27,11 @@ namespace Leap.Unity {
     }
 
     public override void UpdateHand() {
+      Chirality hand = this.Handedness;
 
       for (int f = 0; f < fingers.Length; ++f) {
         if (fingers[f] != null) {
-          fingers[f].UpdateFinger();
+          fingers[f].UpdateFinger(hand, f);
         }
       }
 

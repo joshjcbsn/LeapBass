@@ -64,6 +64,8 @@ namespace Leap.Unity {
       return Quaternion.Inverse(Quaternion.LookRotation(modelFingerPointing, -modelPalmFacing));
     }
     public override void UpdateHand() {
+      Chirality h = this.Handedness;
+
       if (palm != null) {
         if (ModelPalmAtLeapWrist) {
           palm.position = GetWristPosition();
@@ -84,7 +86,7 @@ namespace Leap.Unity {
       for (int i = 0; i < fingers.Length; ++i) {
         if (fingers[i] != null) {
           fingers[i].fingerType = (Finger.FingerType)i;
-          fingers[i].UpdateFinger();
+          fingers[i].UpdateFinger(h, i);
         }
       }
     }

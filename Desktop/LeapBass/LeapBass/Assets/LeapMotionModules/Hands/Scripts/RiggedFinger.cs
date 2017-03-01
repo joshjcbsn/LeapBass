@@ -33,7 +33,7 @@ namespace Leap.Unity {
     private RiggedHand riggedHand;
 
     /** Updates the bone rotations. */
-    public override void UpdateFinger() {
+    public override void UpdateFinger(Chirality h, int f) {
       for (int i = 0; i < bones.Length; ++i) {
         if (bones[i] != null) {
           bones[i].rotation = GetBoneRotation(i) * Reorientation();

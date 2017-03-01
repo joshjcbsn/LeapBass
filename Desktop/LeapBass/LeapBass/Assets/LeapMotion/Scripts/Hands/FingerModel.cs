@@ -64,8 +64,8 @@ namespace Leap.Unity{
     * Implement this function to initialize this finger after it is created.
     * Typically, this function is called by the parent HandModel object.
     */
-    public virtual void InitFinger() {
-      UpdateFinger();
+    public virtual void InitFinger(Chirality h, int f) {
+      UpdateFinger(h, f);
     }
 
     /**
@@ -75,7 +75,7 @@ namespace Leap.Unity{
     * graphics hand models and in the FixedUpdate() phase for physics hand
     * models.
     */
-    public abstract void UpdateFinger();
+    public abstract void UpdateFinger(Chirality h, int f);
 
     /** Returns the location of the tip of the finger */
     public Vector3 GetTipPosition() {

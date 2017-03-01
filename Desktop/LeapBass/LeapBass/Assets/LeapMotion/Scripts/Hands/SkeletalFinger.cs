@@ -17,12 +17,12 @@ namespace Leap.Unity{
   public class SkeletalFinger : FingerModel {
   
     /** Initializes the finger bones and joints by setting their positions and rotations. */
-    public override void InitFinger() {
+    public override void InitFinger(Chirality h, int f) {
       SetPositions();
     }
   
     /** Updates the finger bones and joints by setting their positions and rotations. */
-    public override void UpdateFinger() {
+    public override void UpdateFinger(Chirality hand, int f) {
       Debug.Log("SkeletalFinger.SetPositions()");
   
       SetPositions();

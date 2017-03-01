@@ -63,12 +63,11 @@ namespace Leap.Unity{
     */
     public Vector3 GetPalmPosition() {
             var localPosition = hand_.PalmPosition.ToVector3();
-            var palmPos = localPosition.ToString();
             if (handedness == Chirality.Right)
             {
 
                 // var osc = new SharpOSC.OscMessage("/RightPalmPosition", (float)palmPos[0], (float)palmPos[1], (float)palmPos[2]);
-                var osc = new SharpOSC.OscMessage("/RightPalmPosition", palmPos);
+                var osc = new SharpOSC.OscMessage("/RightPalmPosition", localPosition.x, localPosition.y, localPosition.z);
                 var sender = new SharpOSC.UDPSender("127.0.0.1", 55555);
                 sender.Send(osc);
             }
@@ -76,7 +75,7 @@ namespace Leap.Unity{
             {
 
                 // var osc = new SharpOSC.OscMessage("/LeftPalmPosition", palmPos[0], palmPos[1], palmPos[2]);
-                var osc = new SharpOSC.OscMessage("/LeftPalmPosition", palmPos);
+                var osc = new SharpOSC.OscMessage("/LeftPalmPosition", localPosition.x, localPosition.y, localPosition.z);
                 var sender = new SharpOSC.UDPSender("127.0.0.1", 55555);
                 sender.Send(osc);
             }
@@ -211,10 +210,6 @@ namespace Leap.Unity{
     * which uses a right-handed axes and units of millimeters.
     */
     public override Hand GetLeapHand() {
-            var osc = new SharpOSC.OscMessage("/test", "test");
-            var sender = new SharpOSC.UDPSender("127.0.0.1", 55555);
-            sender.Send(osc);
-
             return hand_;
     }
 
@@ -238,10 +233,11 @@ namespace Leap.Unity{
     * by the Leap Motion device.
     */
     public override void InitHand() {
+      Chirality h = this.Handedness;
       for (int f = 0; f < fingers.Length; ++f) {
         if (fingers[f] != null) {
           fingers[f].fingerType = (Finger.FingerType)f;
-          fingers[f].InitFinger();
+          fingers[f].InitFinger(h,f);
         }
       }
     }
